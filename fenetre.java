@@ -9,22 +9,15 @@ public class fenetre extends JFrame {
    // Define constants for the various dimensions
    public static final int CANVAS_WIDTH = 400;
    public static final int CANVAS_HEIGHT = 140;
-   public static final Color FILL_COLOR = Color.RED;
-   public static final Color LINE_COLOR = Color.WHITE;
-   public static final Color CANVAS_BACKGROUND = Color.BLACK;
  
-   // The moving line from (x1, y1) to (x2, y2), initially position at the center
-   private int x1 = CANVAS_WIDTH / 8;
-   private int y1 = CANVAS_HEIGHT / 8;
-   private int w = CANVAS_HEIGHT / 4;
-   private int h = CANVAS_HEIGHT / 4;
+   //The moving line from (x1, y1) to (x2, y2), initially position at the center
  
-   private DrawCanvas canvas; // The custom drawing canvas (an innder class extends JPanel)
+   private gameArea canvas; // The custom drawing canvas (an innder class extends JPanel)
  
    // Constructor to set up the GUI components and event handlers
    public fenetre() {
       // Set up a custom drawing JPanel
-      canvas = new DrawCanvas();
+      canvas = new gameArea();
       canvas.setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
  
       // Add both panels to this JFrame's content-pane
@@ -38,11 +31,13 @@ public class fenetre extends JFrame {
          public void keyPressed(KeyEvent evt) {
             switch(evt.getKeyCode()) {
                case KeyEvent.VK_LEFT:
-                  x1 -= 10;
+                  //x1 -= 10;
+                  canvas.setX1(canvas.getX1() - 10);
                   repaint();
                   break;
                case KeyEvent.VK_RIGHT:
-                  x1 += 10;
+                  //x1 += 10;
+                  canvas.setX1(canvas.getX1() + 10);
                   repaint();
                   break;
             }
@@ -56,20 +51,7 @@ public class fenetre extends JFrame {
       requestFocus();   // set the focus to JFrame to receive KeyEvent
    }
  
-   /**
-    * Define inner class DrawCanvas, which is a JPanel used for custom drawing.
-    */
-   class DrawCanvas extends JPanel {
-      @Override
-      public void paintComponent(Graphics g) {
-         super.paintComponent(g);
-         setBackground(CANVAS_BACKGROUND);
-         g.setColor(FILL_COLOR);
-         g.fillRect(x1+1, y1+1, w-1, h-1);
-         g.setColor(LINE_COLOR);
-         g.drawRect(x1, y1, w, h); // Draw the line
-      }
-   }
+   
  
    // The entry main() method
    public static void main(String[] args) {
