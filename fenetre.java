@@ -10,15 +10,48 @@ public class fenetre extends JFrame {
 
    public fenetre() {
       // Set up a custom drawing JPanel
-      setSize(400, 600);
-      setLayout(null);
-      add(new gameArea(6));
+      gameArea canvas = new gameArea(6, 12);
+      canvas.setPreferredSize(new Dimension(500, 600));
+ 
+      // Add both panels to this JFrame's content-pane
+      Container cp = getContentPane();
+      cp.setLayout(new BorderLayout());
+      cp.add(canvas, BorderLayout.CENTER);
+      // Set up a custom drawing JPanel
+      //setSize(400, 600);
+      //setLayout(null);
+      //add(new gameArea(6));
 
-      // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Handle the CLOSE button
-      // setTitle("Move a Line");
-      // pack();           // pack all the components in the JFrame
-      // setVisible(true); // show it
-      // requestFocus();   // set the focus to JFrame to receive KeyEvent
+      // "super" JFrame fires KeyEvent
+      addKeyListener(new KeyAdapter() {
+         @Override
+         public void keyPressed(KeyEvent evt) {
+            switch(evt.getKeyCode()) {
+               case KeyEvent.VK_LEFT:
+                  canvas.left();
+                  repaint();
+                  break;
+               case KeyEvent.VK_RIGHT:
+                  canvas.right();
+                  repaint();
+                  break;
+            }
+         }
+      });
+
+      final Timer timer = new Timer(800, new ActionListener() {
+         public void actionPerformed(ActionEvent e) {
+            canvas.fall();
+            repaint();
+         }
+      });
+      timer.start();
+      
+      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Handle the CLOSE button
+      setTitle("Tetris");
+      pack();           // pack all the components in the JFrame
+      setVisible(true); // show it
+      requestFocus();   // set the focus to JFrame to receive KeyEvent
    }
 
    
