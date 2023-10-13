@@ -5,57 +5,36 @@ public class gameArea  extends JPanel{
     /**
     * Define inner class DrawCanvas, which is a JPanel used for custom drawing.
     */
-    public static final int CANVAS_WIDTH = 400;
-    public static final int CANVAS_HEIGHT = 140;
-    public static final Color FILL_COLOR = Color.RED;
-    public static final Color LINE_COLOR = Color.WHITE;
-    public static final Color CANVAS_BACKGROUND = Color.BLACK;
+    public static final int CANVAS_WIDTH = 204;
+    public static final int CANVAS_HEIGHT = 476;
+    private int nbColumns;
+    private int nbRow;
+    private int cellSize;
+  
 
-    private int x1 = CANVAS_WIDTH / 8;
-    private int y1 = CANVAS_HEIGHT / 8;
-    private int w = CANVAS_HEIGHT / 4;
-    private int h = CANVAS_HEIGHT / 4;
+    public gameArea(int columns){
+        //setVisible(false);
+        setBounds(150, 50, CANVAS_WIDTH, CANVAS_HEIGHT);
+        setBorder(BorderFactory.createLineBorder(Color.black));
+        this.nbColumns = columns;
+        this.cellSize = CANVAS_WIDTH / this.nbColumns;
+        this.nbRow = CANVAS_HEIGHT / this.cellSize;
+
+
+
+    }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        setBackground(CANVAS_BACKGROUND);
-        g.setColor(FILL_COLOR);
-        g.fillRect(x1+1, y1+1, w-1, h-1);
-        g.setColor(LINE_COLOR);
-        g.drawRect(x1, y1, w, h); // Draw the line
-    }
+        // g.setColor(Color.red);
+        for(int j = 0 ; j < this.nbRow ; j ++){
+            for(int i = 0 ; i < this.nbColumns; i++){
+                g.drawRect(i*this.cellSize,j*this.cellSize,this.cellSize,this.cellSize);
+        }
 
-    int getX1(){
-        return this.x1;
-    }
+        }
 
-        int getY1(){
-        return this.y1;
-    }
-
-        int getW(){
-        return this.w;
-    }
-
-        int getH(){
-        return this.h;
-    }
-
-    int setX1(int i){
-        return this.x1 =i;
-    }
-
-        int setY1(int i){
-        return this.y1 =i;
-    }
-
-        int setW(int i){
-        return this.w =i;
-    }
-
-        int setH(int i){
-        return this.h =i;
     }
 
 }
