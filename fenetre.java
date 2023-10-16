@@ -23,8 +23,12 @@ public class fenetre extends JFrame {
    static List<Integer> grid = new ArrayList<Integer>();
    public fenetre() {
       // Set up a custom drawing JPanel
+
       gameArea canvas = new gameArea(10, 20);
       canvas.setPreferredSize(new Dimension(500, 600));
+
+      block block = new Iblock();
+      canvas.setBlock(block);
  
       // Add both panels to this JFrame's content-pane
       Container cp = getContentPane();
@@ -41,11 +45,11 @@ public class fenetre extends JFrame {
          public void keyPressed(KeyEvent evt) {
             switch(evt.getKeyCode()) {
                case KeyEvent.VK_LEFT:
-                  canvas.left();
+                  block.moveLeft();
                   repaint();
                   break;
                case KeyEvent.VK_RIGHT:
-                  canvas.right();
+                  block.moveRight();
                   repaint();
                   break;
             }
@@ -54,7 +58,7 @@ public class fenetre extends JFrame {
 
       final Timer timer = new Timer(800, new ActionListener() {
          public void actionPerformed(ActionEvent e) {
-            canvas.fall();
+            block.fall();
             repaint();
          }
       });

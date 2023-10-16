@@ -1,6 +1,12 @@
-import java.awt.*;       // Using AWT's Graphics and Color
-import java.awt.event.*; // Using AWT's event classes and listener interface
-import javax.swing.*; 
+// Using AWT's Graphics and Color
+import java.awt.Color;
+import java.awt.Graphics;
+
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+
+import java.util.List;
+
 public class gameArea  extends JPanel{
     /**
     * Define inner class DrawCanvas, which is a JPanel used for custom drawing.
@@ -18,6 +24,7 @@ public class gameArea  extends JPanel{
     private int xCollumn = (int) Math.round(this.canvasWidth/2);
     private int yCollumn = (int) Math.round(this.canvasHeight/4);
     private int rectPos = 0;
+    private block block;
 
     public gameArea(int columns, int rows){
         //setVisible(false);
@@ -25,7 +32,13 @@ public class gameArea  extends JPanel{
         setBorder(BorderFactory.createLineBorder(Color.black));
         gameArea.nbColumns = columns;
         gameArea.nbRow = rows;
+        for(int i = 0; i<gameArea.nbColumns*gameArea.nbRow;i++){
+            fenetre.grid.add(-1);
+        }
         this.cellSize = (int) Math.round(this.canvasWidth / gameArea.nbColumns/2);
+
+        this.block = block;
+
     }
 
     @Override
@@ -44,13 +57,26 @@ public class gameArea  extends JPanel{
                 g.setColor(Color.white); 
                 g.drawRect(xCollumn+j*this.cellSize, yCollumn+i*this.cellSize, this.cellSize, this.cellSize);
         }}
+
+        List<Integer> blockPositions = block.getPositions();
         
-        g.setColor(FILL_COLOR);
-        g.fillRect(this.xCollumn + (int) Math.round(this.rectPos%gameArea.nbColumns)*this.cellSize+1, this.yCollumn + (int) Math.round(this.rectPos/gameArea.nbColumns)*this.cellSize+1, this.cellSize-1, this.cellSize-1);
-        g.setColor(LINE_COLOR);
-        g.drawRect(this.xCollumn +(int) Math.round(this.rectPos%gameArea.nbColumns)*this.cellSize, this.yCollumn + (int) Math.round(this.rectPos/gameArea.nbColumns)*this.cellSize, this.cellSize, this.cellSize);
+
+        for(int i = 0; i < blockPositions.size(); i++){
+            g.setColor(FILL_COLOR);
+            g.fillRect(this.xCollumn + (int) Math.round(blockPositions.get(i)%gameArea.nbColumns)*this.cellSize+1, this.yCollumn + (int) Math.round(blockPositions.get(i)/gameArea.nbColumns)*this.cellSize+1, this.cellSize-1, this.cellSize-1);
+            g.setColor(LINE_COLOR);
+            g.drawRect(this.xCollumn +(int) Math.round(blockPositions.get(i)%gameArea.nbColumns)*this.cellSize, this.yCollumn + (int) Math.round(blockPositions.get(i)/gameArea.nbColumns)*this.cellSize, this.cellSize, this.cellSize);
+        }
+        
+        //g.setColor(FILL_COLOR);
+        //g.fillRect(this.xCollumn + (int) Math.round(this.rectPos%gameArea.nbColumns)*this.cellSize+1, this.yCollumn + (int) Math.round(this.rectPos/gameArea.nbColumns)*this.cellSize+1, this.cellSize-1, this.cellSize-1);
+        //g.setColor(LINE_COLOR);
+        //g.drawRect(this.xCollumn +(int) Math.round(this.rectPos%gameArea.nbColumns)*this.cellSize, this.yCollumn + (int) Math.round(this.rectPos/gameArea.nbColumns)*this.cellSize, this.cellSize, this.cellSize);
     } 
 
+    void setBlock(block block){
+        this.block = block;
+    }
     int getW(){
         return this.cellSize;
     }
