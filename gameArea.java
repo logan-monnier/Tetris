@@ -37,8 +37,6 @@ public class gameArea  extends JPanel{
         }
         this.cellSize = (int) Math.round(this.canvasWidth / gameArea.nbColumns/2);
 
-        this.block = block;
-
     }
 
     @Override
