@@ -1,16 +1,29 @@
-import java.awt.*;       // Using AWT's Graphics and Color
-import java.awt.event.*; // Using AWT's event classes and listener interface
-import javax.swing.*;    // Using Swing's components and containers
+// Using AWT's Graphics and Color
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.Dimension;
+// Using AWT's event classes and listener interface
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
+
+// Using Swing's components and containers
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 /**
  * Custom Graphics Example: Using key/button to move a line left or right.
  */
 @SuppressWarnings("serial")
 public class fenetre extends JFrame {
    // Define constants for the various dimensions
-
+   static List<Integer> grid = new ArrayList<Integer>();
    public fenetre() {
       // Set up a custom drawing JPanel
-      gameArea canvas = new gameArea(6, 12);
+      gameArea canvas = new gameArea(10, 20);
       canvas.setPreferredSize(new Dimension(500, 600));
  
       // Add both panels to this JFrame's content-pane

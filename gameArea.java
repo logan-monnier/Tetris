@@ -11,8 +11,8 @@ public class gameArea  extends JPanel{
     public static final Color LINE_COLOR = Color.WHITE;
     public static final Color CANVAS_BACKGROUND = Color.BLACK;
 
-    private int nbColumns;
-    private int nbRow;
+    static int nbColumns;
+    static int nbRow;
     private int cellSize;
 
     private int xCollumn = (int) Math.round(this.canvasWidth/2);
@@ -23,9 +23,9 @@ public class gameArea  extends JPanel{
         //setVisible(false);
         //setBounds(150, 50, this.canvasWidth, this.canvasHeight);
         setBorder(BorderFactory.createLineBorder(Color.black));
-        this.nbColumns = columns;
-        this.nbRow = rows;
-        this.cellSize = (int) Math.round(this.canvasWidth / this.nbColumns/2);
+        gameArea.nbColumns = columns;
+        gameArea.nbRow = rows;
+        this.cellSize = (int) Math.round(this.canvasWidth / gameArea.nbColumns/2);
     }
 
     @Override
@@ -37,18 +37,18 @@ public class gameArea  extends JPanel{
         this.canvasHeight = getHeight();
         this.xCollumn = (int) Math.round(this.canvasWidth/2);
         this.yCollumn = (int) Math.round(this.canvasHeight/4);
-        this.cellSize = (int) Math.round((this.canvasHeight-this.yCollumn) / this.nbRow / 1.25);
+        this.cellSize = (int) Math.round((this.canvasHeight-this.yCollumn) / gameArea.nbRow / 1.25);
 
-        for(int j = 0 ; j < this.nbColumns ; j++){
-            for(int i = 0 ; i < this.nbRow ; i++){
+        for(int j = 0 ; j < gameArea.nbColumns ; j++){
+            for(int i = 0 ; i < gameArea.nbRow ; i++){
                 g.setColor(Color.white); 
                 g.drawRect(xCollumn+j*this.cellSize, yCollumn+i*this.cellSize, this.cellSize, this.cellSize);
         }}
         
         g.setColor(FILL_COLOR);
-        g.fillRect(this.xCollumn + (int) Math.round(this.rectPos%this.nbColumns)*this.cellSize+1, this.yCollumn + (int) Math.round(this.rectPos/this.nbColumns)*this.cellSize+1, this.cellSize-1, this.cellSize-1);
+        g.fillRect(this.xCollumn + (int) Math.round(this.rectPos%gameArea.nbColumns)*this.cellSize+1, this.yCollumn + (int) Math.round(this.rectPos/gameArea.nbColumns)*this.cellSize+1, this.cellSize-1, this.cellSize-1);
         g.setColor(LINE_COLOR);
-        g.drawRect(this.xCollumn +(int) Math.round(this.rectPos%this.nbColumns)*this.cellSize, this.yCollumn + (int) Math.round(this.rectPos/this.nbColumns)*this.cellSize, this.cellSize, this.cellSize);
+        g.drawRect(this.xCollumn +(int) Math.round(this.rectPos%gameArea.nbColumns)*this.cellSize, this.yCollumn + (int) Math.round(this.rectPos/gameArea.nbColumns)*this.cellSize, this.cellSize, this.cellSize);
     } 
 
     int getW(){
@@ -60,21 +60,21 @@ public class gameArea  extends JPanel{
     }
 
     void left(){
-        if(this.rectPos%this.nbColumns > 0){
+        if(this.rectPos%gameArea.nbColumns > 0){
             this.rectPos--;
         }
     }
 
     void right(){
-        if(this.rectPos%this.nbColumns < this.nbColumns-1){
+        if(this.rectPos%gameArea.nbColumns < gameArea.nbColumns-1){
             this.rectPos++;
         }
         
     }
 
     void fall(){
-        if(this.rectPos/this.nbColumns < this.nbRow-1){
-            this.rectPos += this.nbColumns;
+        if(this.rectPos/gameArea.nbColumns < gameArea.nbRow-1){
+            this.rectPos += gameArea.nbColumns;
         }
     }
 
