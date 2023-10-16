@@ -41,16 +41,15 @@ public class gameArea  extends JPanel{
 
         for(int j = 0 ; j < this.nbColumns ; j++){
             for(int i = 0 ; i < this.nbRow ; i++){
+                g.setColor(Color.white); 
                 g.drawRect(xCollumn+j*this.cellSize, yCollumn+i*this.cellSize, this.cellSize, this.cellSize);
-        }
-
-        }
+        }}
         
         g.setColor(FILL_COLOR);
         g.fillRect(this.xCollumn + (int) Math.round(this.rectPos%this.nbColumns)*this.cellSize+1, this.yCollumn + (int) Math.round(this.rectPos/this.nbColumns)*this.cellSize+1, this.cellSize-1, this.cellSize-1);
         g.setColor(LINE_COLOR);
         g.drawRect(this.xCollumn +(int) Math.round(this.rectPos%this.nbColumns)*this.cellSize, this.yCollumn + (int) Math.round(this.rectPos/this.nbColumns)*this.cellSize, this.cellSize, this.cellSize);
-    }
+    } 
 
     int getW(){
         return this.cellSize;
