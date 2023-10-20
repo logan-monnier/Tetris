@@ -84,13 +84,12 @@ public class fenetre extends JFrame {
                   if (grid.get(i) != Color.BLACK){
                      count++;
                   }
-                  System.out.println(count);
-                  if (count == gameArea.nbColumns-1){
+                  if (count == gameArea.nbColumns){
                      for(int j = i; j>gameArea.nbColumns; j--){
                         grid.set(j, grid.get(j-gameArea.nbColumns));
                      }
                   }
-                  if(i%(gameArea.nbColumns) == 0){
+                  if((i+1)%(gameArea.nbColumns) == 0){
                      count = 0;
                   }
                }

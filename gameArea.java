@@ -1,11 +1,14 @@
 // Using AWT's Graphics and Color
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RadialGradientPaint;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class gameArea extends JPanel{
     /**
@@ -62,6 +65,30 @@ public class gameArea extends JPanel{
             g.fillRect(this.xCollumn + i%gameArea.nbColumns*this.cellSize+1, this.yCollumn + (int) Math.round(i/gameArea.nbColumns)*this.cellSize+1, this.cellSize-1, this.cellSize-1);
             g.setColor(LINE_COLOR);
             g.drawRect(this.xCollumn + i%gameArea.nbColumns*this.cellSize, this.yCollumn + (int) Math.round(i/gameArea.nbColumns)*this.cellSize, this.cellSize, this.cellSize);
+        }
+
+        Graphics2D g2d = (Graphics2D) g;
+        boolean canFall = true;
+        List<Integer> pos = new ArrayList<Integer>(block.getPositions());
+        while (canFall){
+            for(int i = 0; i < pos.size(); i++){
+                if(((pos.get(i)/gameArea.nbColumns)+1 > gameArea.nbRow-1) || (fenetre.grid.get(pos.get(i)+gameArea.nbColumns) != Color.BLACK)){
+                    canFall = false;
+                }
+            }
+            if(canFall){
+                for(int i = 0; i < pos.size(); i++){
+                    pos.set(i, pos.get(i)+gameArea.nbColumns);
+                }
+            }
+        }
+        
+        for(int i = 0; i < pos.size(); i++){
+            float[] dist = {0.4f, 0.7f, 0.9f, 1.0f};
+            Color[] colors = {Color.BLACK, Color.DARK_GRAY, Color.GRAY, Color.WHITE};
+            RadialGradientPaint p = new RadialGradientPaint(this.xCollumn + pos.get(i)%gameArea.nbColumns*this.cellSize+this.cellSize/2, this.yCollumn + pos.get(i)/gameArea.nbColumns*this.cellSize+this.cellSize/2, this.cellSize/2, dist, colors);
+            g2d.setPaint(p);
+            g2d.fillRect(this.xCollumn + pos.get(i)%gameArea.nbColumns*this.cellSize+1, this.yCollumn + pos.get(i)/gameArea.nbColumns*this.cellSize+1, this.cellSize-1, this.cellSize-1);
         }
 
         for(int i = 0; i < blockPositions.size(); i++){
