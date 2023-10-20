@@ -3,6 +3,7 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Color;
+
 // Using AWT's event classes and listener interface
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,7 +30,7 @@ public class fenetre extends JFrame {
       gameArea canvas = new gameArea(10, 20);
       canvas.setPreferredSize(new Dimension(500, 600));
 
-      block = new Iblock();
+      block = new Tblock();
       canvas.setBlock(block);
  
       // Add both panels to this JFrame's content-pane
@@ -58,11 +59,20 @@ public class fenetre extends JFrame {
                   block.fall();
                   repaint();
                   break;
+               case KeyEvent.VK_B:
+                  block.spinLeft();
+                  repaint();
+                  break;
+               case KeyEvent.VK_N:
+                  block.spinRight();
+                  repaint();
+                  break;
             }
          }
       });
 
       final Timer timer = new Timer(800, new ActionListener() {
+         // manage to delete line full of block 
          public void actionPerformed(ActionEvent e) {
             int rand;
             if(!block.fall()){
