@@ -2,6 +2,7 @@
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Color;
 // Using AWT's event classes and listener interface
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,14 +21,15 @@ import javax.swing.Timer;
 @SuppressWarnings("serial")
 public class fenetre extends JFrame {
    // Define constants for the various dimensions
-   static List<Integer> grid = new ArrayList<Integer>();
+   static List<Color> grid = new ArrayList<Color>();
+   private block block;
    public fenetre() {
       // Set up a custom drawing JPanel
 
       gameArea canvas = new gameArea(10, 20);
       canvas.setPreferredSize(new Dimension(500, 600));
 
-      block block = new Iblock();
+      block = new Iblock();
       canvas.setBlock(block);
  
       // Add both panels to this JFrame's content-pane
@@ -52,13 +54,62 @@ public class fenetre extends JFrame {
                   block.moveRight();
                   repaint();
                   break;
+               case KeyEvent.VK_DOWN:
+                  block.fall();
+                  repaint();
+                  break;
             }
          }
       });
 
       final Timer timer = new Timer(800, new ActionListener() {
          public void actionPerformed(ActionEvent e) {
-            block.fall();
+            int rand;
+            if(!block.fall()){
+               for(int p : block.getPositions()){
+                  grid.set(p, block.getColor());
+               }
+               int count = 0;
+               for(int i = 0; i < grid.size(); i++){
+                  if (grid.get(i) != Color.BLACK){
+                     count++;
+                  }
+                  System.out.println(count);
+                  if (count == gameArea.nbColumns-1){
+                     for(int j = i; j>gameArea.nbColumns; j--){
+                        grid.set(j, grid.get(j-gameArea.nbColumns));
+                     }
+                  }
+                  if(i%(gameArea.nbColumns) == 0){
+                     count = 0;
+                  }
+               }
+               rand = (int)(Math.random() * 7);
+               switch(rand){
+                  case 0:
+                     block = new Iblock();
+                     break;
+                  case 1:
+                     block = new Jblock();
+                     break;
+                  case 2:
+                     block = new Lblock();
+                     break;
+                  case 3:
+                     block = new Oblock();
+                     break;
+                  case 4:
+                     block = new Sblock();
+                     break;
+                  case 5:
+                     block = new Tblock();
+                     break;
+                  case 6:
+                     block = new Zblock();
+                     break;
+               }
+               canvas.setBlock(block);
+            }
             repaint();
          }
       });

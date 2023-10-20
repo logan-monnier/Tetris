@@ -7,13 +7,12 @@ import javax.swing.JPanel;
 
 import java.util.List;
 
-public class gameArea  extends JPanel{
+public class gameArea extends JPanel{
     /**
     * Define inner class DrawCanvas, which is a JPanel used for custom drawing.
     */
     private double canvasWidth = 500;
     private double canvasHeight = 600;
-    public static final Color FILL_COLOR = Color.RED;
     public static final Color LINE_COLOR = Color.WHITE;
     public static final Color CANVAS_BACKGROUND = Color.BLACK;
 
@@ -33,7 +32,7 @@ public class gameArea  extends JPanel{
         gameArea.nbColumns = columns;
         gameArea.nbRow = rows;
         for(int i = 0; i<gameArea.nbColumns*gameArea.nbRow;i++){
-            fenetre.grid.add(-1);
+            fenetre.grid.add(Color.BLACK);
         }
         this.cellSize = (int) Math.round(this.canvasWidth / gameArea.nbColumns/2);
 
@@ -58,12 +57,18 @@ public class gameArea  extends JPanel{
 
         List<Integer> blockPositions = block.getPositions();
         
+        for(int i = 0; i < fenetre.grid.size(); i++){
+            g.setColor(fenetre.grid.get(i));
+            g.fillRect(this.xCollumn + i%gameArea.nbColumns*this.cellSize+1, this.yCollumn + (int) Math.round(i/gameArea.nbColumns)*this.cellSize+1, this.cellSize-1, this.cellSize-1);
+            g.setColor(LINE_COLOR);
+            g.drawRect(this.xCollumn + i%gameArea.nbColumns*this.cellSize, this.yCollumn + (int) Math.round(i/gameArea.nbColumns)*this.cellSize, this.cellSize, this.cellSize);
+        }
 
         for(int i = 0; i < blockPositions.size(); i++){
-            g.setColor(FILL_COLOR);
-            g.fillRect(this.xCollumn + (int) Math.round(blockPositions.get(i)%gameArea.nbColumns)*this.cellSize+1, this.yCollumn + (int) Math.round(blockPositions.get(i)/gameArea.nbColumns)*this.cellSize+1, this.cellSize-1, this.cellSize-1);
+            g.setColor(block.getColor());
+            g.fillRect(this.xCollumn + blockPositions.get(i)%gameArea.nbColumns*this.cellSize+1, this.yCollumn + (int) Math.round(blockPositions.get(i)/gameArea.nbColumns)*this.cellSize+1, this.cellSize-1, this.cellSize-1);
             g.setColor(LINE_COLOR);
-            g.drawRect(this.xCollumn +(int) Math.round(blockPositions.get(i)%gameArea.nbColumns)*this.cellSize, this.yCollumn + (int) Math.round(blockPositions.get(i)/gameArea.nbColumns)*this.cellSize, this.cellSize, this.cellSize);
+            g.drawRect(this.xCollumn + blockPositions.get(i)%gameArea.nbColumns*this.cellSize, this.yCollumn + (int) Math.round(blockPositions.get(i)/gameArea.nbColumns)*this.cellSize, this.cellSize, this.cellSize);
         }
         
         //g.setColor(FILL_COLOR);
