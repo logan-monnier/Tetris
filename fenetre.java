@@ -135,6 +135,7 @@ public class fenetre extends JFrame {
       
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Handle the CLOSE button
       setTitle("Tetris");
+      setLocationRelativeTo(null);
       pack();           // pack all the components in the JFrame
       setVisible(true); // show it
       requestFocus();   // set the focus to JFrame to receive KeyEvent
