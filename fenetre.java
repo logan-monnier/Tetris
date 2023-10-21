@@ -14,6 +14,7 @@ import java.util.List;
 
 // Using Swing's components and containers
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 /**
@@ -24,11 +25,17 @@ public class fenetre extends JFrame {
    // Define constants for the various dimensions
    static List<Color> grid = new ArrayList<Color>();
    private block block;
+   private int score=0;
    public fenetre() {
       // Set up a custom drawing JPanel
 
       gameArea canvas = new gameArea(10, 20);
       canvas.setPreferredSize(new Dimension(500, 600));
+
+      JLabel label = new JLabel(("Score :" + score),JLabel.CENTER);
+      label.setForeground(Color.WHITE);
+      label.setBounds(50,200,200,200);
+      canvas.add(label);
 
       block = new Tblock();
       canvas.setBlock(block);
@@ -88,6 +95,8 @@ public class fenetre extends JFrame {
                      for(int j = i; j>gameArea.nbColumns; j--){
                         grid.set(j, grid.get(j-gameArea.nbColumns));
                      }
+                     score ++;
+                     label.setText("Score :"+score);
                   }
                   if((i+1)%(gameArea.nbColumns) == 0){
                      count = 0;

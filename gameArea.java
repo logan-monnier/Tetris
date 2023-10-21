@@ -29,6 +29,7 @@ public class gameArea extends JPanel{
     private block block;
 
     public gameArea(int columns, int rows){
+        this.setLayout(null);
         //setVisible(false);
         //setBounds(150, 50, this.canvasWidth, this.canvasHeight);
         setBorder(BorderFactory.createLineBorder(Color.black));
