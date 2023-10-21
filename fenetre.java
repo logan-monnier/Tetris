@@ -144,7 +144,7 @@ public class fenetre extends JFrame {
    
 
    // The entry main() method
-   public static void main(String[] args) {
+   public static void start() {
       // Run GUI codes on the Event-Dispatcher Thread for thread safety
       SwingUtilities.invokeLater(new Runnable() {
          @Override
