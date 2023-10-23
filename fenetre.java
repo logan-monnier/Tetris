@@ -17,17 +17,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-/**
- * Custom Graphics Example: Using key/button to move a line left or right.
- */
 @SuppressWarnings("serial")
 public class fenetre extends JFrame {
-   // Define constants for the various dimensions
    static List<Color> grid = new ArrayList<Color>();
    private block block;
    private int score=0;
    public fenetre() {
-      // Set up a custom drawing JPanel
 
       gameArea canvas = new gameArea(10, 20);
       canvas.setPreferredSize(new Dimension(500, 600));
@@ -40,14 +35,9 @@ public class fenetre extends JFrame {
       block = new Tblock();
       canvas.setBlock(block);
  
-      // Add both panels to this JFrame's content-pane
       Container cp = getContentPane();
       cp.setLayout(new BorderLayout());
       cp.add(canvas, BorderLayout.CENTER);
-      // Set up a custom drawing JPanel
-      //setSize(400, 600);
-      //setLayout(null);
-      //add(new gameArea(6));
 
       // "super" JFrame fires KeyEvent
       addKeyListener(new KeyAdapter() {
@@ -143,9 +133,7 @@ public class fenetre extends JFrame {
 
    
 
-   // The entry main() method
    public static void start() {
-      // Run GUI codes on the Event-Dispatcher Thread for thread safety
       SwingUtilities.invokeLater(new Runnable() {
          @Override
          public void run() {

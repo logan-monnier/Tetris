@@ -4,7 +4,6 @@ import java.awt.event.*;
 import java.awt.Color;
 
 
-//1ère étape
 public class StartupForm implements ActionListener
 {
 

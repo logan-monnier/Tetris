@@ -5,6 +5,7 @@ import java.util.List;
 public abstract class block {
     List<Integer> positions = new ArrayList<Integer>();
     Color color;
+    protected int state = 0;
     
     public List<Integer> getPositions(){
         return this.positions;

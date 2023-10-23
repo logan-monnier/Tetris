@@ -11,9 +11,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class gameArea extends JPanel{
-    /**
-    * Define inner class DrawCanvas, which is a JPanel used for custom drawing.
-    */
     private double canvasWidth = 500;
     private double canvasHeight = 600;
     public static final Color LINE_COLOR = Color.WHITE;
@@ -30,8 +27,6 @@ public class gameArea extends JPanel{
 
     public gameArea(int columns, int rows){
         this.setLayout(null);
-        //setVisible(false);
-        //setBounds(150, 50, this.canvasWidth, this.canvasHeight);
         setBorder(BorderFactory.createLineBorder(Color.black));
         gameArea.nbColumns = columns;
         gameArea.nbRow = rows;
@@ -46,7 +41,7 @@ public class gameArea extends JPanel{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         setBackground(CANVAS_BACKGROUND);
-        // g.setColor(Color.red);
+
         this.canvasWidth = getWidth();
         this.canvasHeight = getHeight();
         this.xCollumn = (int) Math.round(this.canvasWidth/2);
@@ -61,6 +56,7 @@ public class gameArea extends JPanel{
 
         List<Integer> blockPositions = block.getPositions();
         
+        //draw the already existant block
         for(int i = 0; i < fenetre.grid.size(); i++){
             g.setColor(fenetre.grid.get(i));
             g.fillRect(this.xCollumn + i%gameArea.nbColumns*this.cellSize+1, this.yCollumn + (int) Math.round(i/gameArea.nbColumns)*this.cellSize+1, this.cellSize-1, this.cellSize-1);
@@ -68,6 +64,7 @@ public class gameArea extends JPanel{
             g.drawRect(this.xCollumn + i%gameArea.nbColumns*this.cellSize, this.yCollumn + (int) Math.round(i/gameArea.nbColumns)*this.cellSize, this.cellSize, this.cellSize);
         }
 
+        // draw a preview of where the block would land
         Graphics2D g2d = (Graphics2D) g;
         boolean canFall = true;
         List<Integer> pos = new ArrayList<Integer>(block.getPositions());
@@ -92,6 +89,7 @@ public class gameArea extends JPanel{
             g2d.fillRect(this.xCollumn + pos.get(i)%gameArea.nbColumns*this.cellSize+1, this.yCollumn + pos.get(i)/gameArea.nbColumns*this.cellSize+1, this.cellSize-1, this.cellSize-1);
         }
 
+        //draw the falling block
         for(int i = 0; i < blockPositions.size(); i++){
             g.setColor(block.getColor());
             g.fillRect(this.xCollumn + blockPositions.get(i)%gameArea.nbColumns*this.cellSize+1, this.yCollumn + (int) Math.round(blockPositions.get(i)/gameArea.nbColumns)*this.cellSize+1, this.cellSize-1, this.cellSize-1);
