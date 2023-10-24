@@ -32,7 +32,7 @@ public class fenetre extends JFrame {
       label.setBounds(50,200,200,200);
       canvas.add(label);
 
-      block = new Tblock();
+      block = new Iblock();
       canvas.setBlock(block);
  
       Container cp = getContentPane();
