@@ -16,13 +16,13 @@ public abstract class block {
     }
 
     public void moveLeft(){
-        boolean canFall = true;
+        boolean canMove = true;
         for(int i = 0; i < this.positions.size(); i++){
             if(((this.positions.get(i)%gameArea.nbColumns)-1 < 0) || (fenetre.grid.get(this.positions.get(i)-1) != Color.BLACK)){
-                canFall = false;
+                canMove = false;
             }
         }
-        if(canFall){
+        if(canMove){
             for(int i = 0; i < this.positions.size(); i++){
                 positions.set(i, positions.get(i)-1);
             }
@@ -30,13 +30,13 @@ public abstract class block {
     }
 
     public void moveRight(){
-        boolean canFall = true;
+        boolean canMove = true;
         for(int i = 0; i < this.positions.size(); i++){
             if(((this.positions.get(i)%gameArea.nbColumns)+1 > gameArea.nbColumns-1) || (fenetre.grid.get(this.positions.get(i)+1) != Color.BLACK)){
-                canFall = false;
+                canMove = false;
             }
         }
-        if(canFall){
+        if(canMove){
             for(int i = 0; i < this.positions.size(); i++){
                 this.positions.set(i, this.positions.get(i)+1);
             }

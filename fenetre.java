@@ -7,42 +7,65 @@ import java.awt.Color;
 // Using AWT's event classes and listener interface
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
 // Using Swing's components and containers
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 @SuppressWarnings("serial")
 public class fenetre extends JFrame {
    static List<Color> grid = new ArrayList<Color>();
    private block block;
-   private int score=0;
+   private block nextblock;
+   private gameArea canvas;
+   private int canvasWidth = 500;
+   private int canvasHeight = 600;
+
+   private JButton btn;
+   private JButton quitBtn;
+   
    public fenetre() {
+      this.canvas = new gameArea(10, 20);
+      this.canvas.setPreferredSize(new Dimension(this.canvasWidth, this.canvasHeight));
 
-      gameArea canvas = new gameArea(10, 20);
-      canvas.setPreferredSize(new Dimension(500, 600));
+      btn = new JButton("Play");
+      btn.setBounds(200,200,100,30);
+      quitBtn = new JButton("Quit");
+      quitBtn.setBounds(200,250,100,30);
 
-      JLabel label = new JLabel(("Score :" + score),JLabel.CENTER);
-      label.setForeground(Color.WHITE);
-      label.setBounds(50,200,200,200);
-      canvas.add(label);
+      Listener listen = new Listener();
+      btn.addActionListener(listen);
+      quitBtn.addActionListener(listen);
 
-      block = new Iblock();
-      canvas.setBlock(block);
+      canvas.addKeyListener(listen);
+      
+      canvas.add(this.btn);
+      canvas.add(this.quitBtn);
  
       Container cp = getContentPane();
       cp.setLayout(new BorderLayout());
-      cp.add(canvas, BorderLayout.CENTER);
+      cp.add(this.canvas, BorderLayout.CENTER);
+      
+      this.newGame();
 
-      // "super" JFrame fires KeyEvent
-      addKeyListener(new KeyAdapter() {
-         @Override
-         public void keyPressed(KeyEvent evt) {
+      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Handle the CLOSE button
+      setTitle("Tetris");
+      setLocationRelativeTo(null);
+      pack();           // pack all the components in the JFrame
+      setVisible(true); // show it
+      requestFocus();   // set the focus to JFrame to receive KeyEvent
+   }
+
+   class Listener implements KeyListener, ActionListener{
+      @Override
+      public void keyPressed(KeyEvent evt) {
+         System.out.println(evt.getKeyCode());
+         if(canvas.getMenu() != 0){
             switch(evt.getKeyCode()) {
                case KeyEvent.VK_LEFT:
                   block.moveLeft();
@@ -64,14 +87,48 @@ public class fenetre extends JFrame {
                   block.spinRight();
                   repaint();
                   break;
+               case KeyEvent.VK_SPACE:
+                  if (!timer.isRunning()){
+                     newGame();
+                  }
+                  repaint();
+                  break;
             }
          }
-      });
+      }
 
-      final Timer timer = new Timer(800, new ActionListener() {
-         // manage to delete line full of block 
-         public void actionPerformed(ActionEvent e) {
-            int rand;
+      @Override
+      public void keyTyped(KeyEvent e) {
+         // TODO Auto-generated method stub
+      }
+
+      @Override
+      public void keyReleased(KeyEvent e) {
+         // TODO Auto-generated method stub
+      }
+
+      @Override
+      public void actionPerformed(ActionEvent e){
+         if(e.getSource() == btn){
+            removeBtn();
+            canvas.addMenu();
+         }
+         else if(e.getSource() == quitBtn){
+            System.exit(0);
+         }
+         canvas.requestFocusInWindow();
+      }
+   }
+
+   public void removeBtn(){
+      canvas.remove(this.btn);
+      canvas.remove(this.quitBtn);
+   }
+
+   final Timer timer = new Timer(800, new ActionListener() {
+      // manage to delete line full of block 
+      public void actionPerformed(ActionEvent e) {
+         if(canvas.getMenu() != 0){
             if(!block.fall()){
                for(int p : block.getPositions()){
                   grid.set(p, block.getColor());
@@ -85,55 +142,69 @@ public class fenetre extends JFrame {
                      for(int j = i; j>gameArea.nbColumns; j--){
                         grid.set(j, grid.get(j-gameArea.nbColumns));
                      }
-                     score ++;
-                     label.setText("Score :"+score);
+                     canvas.addScore();
                   }
                   if((i+1)%(gameArea.nbColumns) == 0){
                      count = 0;
                   }
                }
-               rand = (int)(Math.random() * 7);
-               switch(rand){
-                  case 0:
-                     block = new Iblock();
-                     break;
-                  case 1:
-                     block = new Jblock();
-                     break;
-                  case 2:
-                     block = new Lblock();
-                     break;
-                  case 3:
-                     block = new Oblock();
-                     break;
-                  case 4:
-                     block = new Sblock();
-                     break;
-                  case 5:
-                     block = new Tblock();
-                     break;
-                  case 6:
-                     block = new Zblock();
-                     break;
+               block = nextblock;
+               nextblock = newBlock();
+               canvas.setBlock(block, nextblock);
+               for(int p : block.getPositions()){
+                  if(grid.get(p) != Color.BLACK){
+                     loose();
+                  }
                }
-               canvas.setBlock(block);
             }
             repaint();
          }
-      });
-      timer.start();
-      
-      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Handle the CLOSE button
-      setTitle("Tetris");
-      setLocationRelativeTo(null);
-      pack();           // pack all the components in the JFrame
-      setVisible(true); // show it
-      requestFocus();   // set the focus to JFrame to receive KeyEvent
+      }
+   });
+
+   public block newBlock(){
+      int rand = (int)(Math.random() * 7);
+      block b = new Iblock();
+      switch(rand){
+         case 0:
+            b = new Iblock();
+            break;
+         case 1:
+            b = new Jblock();
+            break;
+         case 2:
+            b = new Lblock();
+            break;
+         case 3:
+            b = new Oblock();
+            break;
+         case 4:
+            b = new Sblock();
+            break;
+         case 5:
+            b = new Tblock();
+            break;
+         case 6:
+            b = new Zblock();
+            break;
+      }
+      return b;
    }
 
-   
+   public void newGame(){
+      this.block = this.newBlock();
+      this.nextblock = this.newBlock();
+      this.canvas.setBlock(block, nextblock);
+      this.canvas.startAgain();
+      timer.start();
+   }
 
-   public static void start() {
+   public void loose(){
+      this.canvas.hasLoosed();
+      timer.stop();
+   }
+
+   public static void start(){
       SwingUtilities.invokeLater(new Runnable() {
          @Override
          public void run() {
