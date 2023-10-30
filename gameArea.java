@@ -59,7 +59,7 @@ public class gameArea extends JPanel{
 
         this.labelNextBlock = new JLabel(("Next Block"),JLabel.CENTER);
         this.labelNextBlock.setForeground(Color.WHITE);
-        this.labelNextBlock.setBounds(this.canvasWidth/4,this.yCollumn,this.cellSize*4,30);
+        this.labelNextBlock.setBounds(this.canvasWidth/6,this.yCollumn,this.cellSize*4,30);
         this.add(this.labelNextBlock);
     }
 
