@@ -12,7 +12,7 @@ public class Lblock extends block{
     public void spinLeft(){
         boolean canFall = true;
         for(int i = 0; i < this.positions.size(); i++){
-            if(((this.positions.get(i)%gameArea.nbColumns)-1 < 0) || (fenetre.grid.get(this.positions.get(i)-1) != Color.BLACK)){
+            if(((this.positions.get(i)%gameArea.nbColumns)-1 < 1) || (fenetre.grid.get(this.positions.get(i)-1) != Color.BLACK)){
                 if(this.state == 1){
                     canFall = false;
                 }
@@ -80,7 +80,6 @@ public class Lblock extends block{
             }
             if(((positions.get(i)/gameArea.nbColumns)+1 > gameArea.nbRow-1) || (fenetre.grid.get(this.positions.get(i)+gameArea.nbColumns) != Color.BLACK)){
                 canFall = false;
-                System.out.println("dans le if");
             }
         }
         if(canFall){

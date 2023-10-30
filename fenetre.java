@@ -167,25 +167,25 @@ public class fenetre extends JFrame {
       block b = new Lblock();
       switch(rand){
          case 0:
-            b = new Jblock();
+            b = new Lblock();
             break;
          case 1:
-            b = new Jblock();
+            b = new Zblock();
             break;
          case 2:
-            b = new Jblock();
+            b = new Sblock();
             break;
          case 3:
             b = new Jblock();
             break;
          case 4:
-            b = new Jblock();
+            b = new Oblock();
             break;
          case 5:
-            b = new Jblock();
+            b = new Iblock();
             break;
          case 6:
-            b = new Jblock();
+            b = new Tblock();
             break;
       }
       return b;
